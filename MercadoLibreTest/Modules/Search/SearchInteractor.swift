@@ -7,20 +7,10 @@
 
 import Foundation
 
-struct MatchesItemsRequest: Encodable {
-    let query: String
-    let limit: Int
-    let category: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case query = "q"
-        case limit
-        case category
-    }
-}
-
 final class SearchInteractor {
-    lazy var apiManager = APIManager()
+    
+    // MARK: - Private properties -
+    private lazy var apiManager = APIManager()
 }
 
 extension SearchInteractor: SearchInteractorInterface {

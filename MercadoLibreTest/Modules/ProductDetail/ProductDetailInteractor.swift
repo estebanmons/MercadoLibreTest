@@ -8,9 +8,12 @@
 import Foundation
 
 final class ProductDetailInteractor {
-    lazy var apiManager = APIManager()
+    
+    // MARK: - Private properties -
+    private lazy var apiManager = APIManager()
 }
 
+// MARK: - Extensions -
 extension ProductDetailInteractor: ProductDetailInteractorInterface {
     
     func getProductInfo(productId: String, completionHandler: @escaping (ProductInfoResult) -> Void) {

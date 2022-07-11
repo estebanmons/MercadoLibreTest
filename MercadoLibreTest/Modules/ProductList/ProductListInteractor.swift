@@ -8,7 +8,9 @@
 import Foundation
 
 final class ProductListInteractor {
-    lazy var apiManager = APIManager()
+    
+    // MARK: - Private properties -
+    private lazy var apiManager = APIManager()
 }
 
 extension ProductListInteractor: ProductListInteractorInterface {

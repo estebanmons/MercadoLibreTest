@@ -12,7 +12,7 @@ struct ItemResponse: Codable {
     let acceptsMercadopago: Bool?
     let availableQuantity: Int?
     let categoryID: String?
-    let condition: String?
+    let condition: Condition?
     let currencyID: String?
     let id: String?
     let location: Location?
@@ -75,4 +75,9 @@ struct Picture: Codable {
         case secureURL = "secure_url"
         case quality
     }
+}
+
+enum Condition: String, Codable {
+    case new
+    case used
 }

@@ -33,6 +33,7 @@ final class ProductListPresenter {
         self.categoryId = categoryId
     }
     
+    // MARK: - Private methods -
     private func searchMatchesItems() {
         interactor.requestSearchMatchesItems(text: query, categoryId: categoryId) { [weak self] result in
             guard let strongSelf = self else { return }

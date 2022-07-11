@@ -40,6 +40,7 @@ final class SearchViewController: UIViewController {
         resultsTableView.reloadData()
     }
     
+    // MARK: - Private methods -
     private func configureNavigationBar() {
         guard let navigationController = navigationController else { return }
         let appearance = UINavigationBarAppearance()

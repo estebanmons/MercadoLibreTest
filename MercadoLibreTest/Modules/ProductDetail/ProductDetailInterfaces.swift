@@ -13,8 +13,11 @@ enum ProductInfoResult {
 }
 
 struct ItemDetailModel {
-    let title: String
+    let address: String
+    let city: String
     let price: String
+    let title: String
+    let condition: Condition
 }
 
 protocol ProductDetailWireframeInterface: WireframeInterface { }

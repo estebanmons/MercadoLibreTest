@@ -15,6 +15,7 @@ class ProducListCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var freeShippingLabel: UILabel!
 
+    // MARK: - Life cycle -
     override func awakeFromNib() {
         super.awakeFromNib()
         setupView()
@@ -39,6 +40,7 @@ class ProducListCollectionViewCell: UICollectionViewCell {
         freeShippingLabel.text = nil
     }
     
+    // MARK: - Private methods -
     private func setupView() {
         titleLabel.font = .systemFont(ofSize: 16.0)
         titleLabel.textColor = .darkGray
@@ -46,6 +48,7 @@ class ProducListCollectionViewCell: UICollectionViewCell {
         freeShippingLabel.textColor = .systemGreen
     }
     
+    // MARK: - Public methods -
     func setData(with model: ProductListModel) {
         if let imageURL = URL(string: (model.url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? "")) {
             productImageView.kf.setImage(with: imageURL)

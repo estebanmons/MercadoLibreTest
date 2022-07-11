@@ -9,19 +9,12 @@ import UIKit
 
 class ProductDetailViewController: UIViewController {
     
+    // MARK: - Private properties -
     private lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
-    }()
-    
-    private lazy var priceLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14.0)
-        label.textColor = .darkText
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
     }()
     
     private lazy var imagesCollectionView: UICollectionView = {
@@ -34,6 +27,33 @@ class ProductDetailViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var locationStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.spacing = 0.0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    private lazy var locationAddressLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20.0)
+        label.textColor = .darkGray
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var locationCityLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20.0)
+        label.textColor = .darkGray
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .white
@@ -41,15 +61,45 @@ class ProductDetailViewController: UIViewController {
         return scrollView
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private lazy var priceLabel: UILabel = {
         let label = UILabel()
-        label.font = .boldSystemFont(ofSize: 16.0)
-        label.textColor = .darkGray
+        label.font = .boldSystemFont(ofSize: 30.0)
+        label.textColor = .black
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    var index: Int = 0
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 20.0)
+        label.textColor = .darkGray
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var locationView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var tagView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var tagLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20.0)
+        label.textColor = .white
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
     
     // MARK: - Public properties -
     var presenter: ProductDetailPresenterInterface!
@@ -67,7 +117,13 @@ class ProductDetailViewController: UIViewController {
         scrollView.addSubview(containerView)
         containerView.addSubview(titleLabel)
         containerView.addSubview(imagesCollectionView)
+        containerView.addSubview(tagView)
+        tagView.addSubview(tagLabel)
         containerView.addSubview(priceLabel)
+        containerView.addSubview(locationView)
+        locationView.addSubview(locationStackView)
+        locationStackView.addArrangedSubview(locationAddressLabel)
+        locationStackView.addArrangedSubview(locationCityLabel)
     }
     
     private func setConstraints() {
@@ -82,18 +138,35 @@ class ProductDetailViewController: UIViewController {
             containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8.0),
-            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
-            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
+            titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16.0),
+            titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
+            titleLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.0),
             
-            imagesCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.0),
+            imagesCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 24.0),
             imagesCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             imagesCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             imagesCollectionView.heightAnchor.constraint(equalToConstant: 200.0),
             
-            priceLabel.topAnchor.constraint(equalTo: imagesCollectionView.bottomAnchor, constant: 8.0),
-            priceLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
-            priceLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0)
+            tagView.topAnchor.constraint(equalTo: imagesCollectionView.bottomAnchor, constant: 16.0),
+            tagView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
+            tagView.widthAnchor.constraint(equalToConstant: 100.0),
+            tagView.heightAnchor.constraint(equalToConstant: 30.0),
+            
+            tagLabel.centerXAnchor.constraint(equalTo: tagView.centerXAnchor),
+            tagLabel.centerYAnchor.constraint(equalTo: tagView.centerYAnchor),
+            
+            priceLabel.topAnchor.constraint(equalTo: tagView.bottomAnchor, constant: 16.0),
+            priceLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
+            priceLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.0),
+            
+            locationView.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 16.0),
+            locationView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
+            locationView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.0),
+            
+            locationStackView.topAnchor.constraint(equalTo: locationView.topAnchor),
+            locationStackView.leadingAnchor.constraint(equalTo: locationView.leadingAnchor),
+            locationStackView.trailingAnchor.constraint(equalTo: locationView.trailingAnchor),
+            locationStackView.bottomAnchor.constraint(equalTo: locationView.bottomAnchor)
         ])
     }
     
@@ -118,6 +191,8 @@ class ProductDetailViewController: UIViewController {
     }
     
     private func setupView() {
+        tagView.layer.cornerRadius = 4.0
+        tagView.layer.masksToBounds = true
         addViews()
         setConstraints()
         setupCollectionView()
@@ -131,6 +206,19 @@ extension ProductDetailViewController: ProductDetailViewInterface {
     func setData(with model: ItemDetailModel) {
         titleLabel.text = model.title
         priceLabel.text = model.price
+        locationAddressLabel.text = model.address
+        locationAddressLabel.sizeToFit()
+        locationCityLabel.text = model.city
+        locationCityLabel.sizeToFit()
+        switch model.condition {
+        case .new:
+            tagLabel.text = Constants.Condition.new
+            tagView.backgroundColor = .systemGreen
+        case .used:
+            tagLabel.text = Constants.Condition.used
+            tagView.backgroundColor = .systemOrange
+        }
+        
         imagesCollectionView.reloadData()
     }
 }

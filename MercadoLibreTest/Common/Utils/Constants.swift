@@ -8,6 +8,7 @@
 import Foundation
 
 struct Constants {
+    
     struct Title {
         static let productDetail = "Detalle"
         static let productList = "Resultados"
@@ -16,5 +17,10 @@ struct Constants {
     
     struct Search {
         static let searchPlaceholder = "Buscar en Mercado Libre"
+    }
+    
+    struct Condition {
+        static let new = "Nuevo"
+        static let used = "Usado"
     }
 }

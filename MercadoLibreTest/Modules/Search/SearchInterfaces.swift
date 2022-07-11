@@ -12,6 +12,18 @@ enum SearchMatchesResult {
     case error
 }
 
+struct MatchesItemsRequest: Encodable {
+    let query: String
+    let limit: Int
+    let category: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case query = "q"
+        case limit
+        case category
+    }
+}
+
 protocol SearchWireframeInterface: WireframeInterface {
     func navigateToProductList(query: String, categoryId: String?)
 }

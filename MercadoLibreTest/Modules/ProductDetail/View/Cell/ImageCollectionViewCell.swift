@@ -12,6 +12,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet private weak var imageView: UIImageView!
     
+    // MARK: - Life cycle -
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -21,6 +22,7 @@ class ImageCollectionViewCell: UICollectionViewCell {
         imageView.image = nil
     }
     
+    // MARK: - Public methods -
     func setImage(with url: String) {
         if let imageURL = URL(string: (url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? "")) {
             imageView.kf.setImage(with: imageURL)

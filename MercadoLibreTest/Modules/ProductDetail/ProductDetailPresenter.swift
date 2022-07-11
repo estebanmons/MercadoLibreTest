@@ -30,9 +30,16 @@ final class ProductDetailPresenter {
         self.productId = productId
     }
     
-    func setDataForView() {
+    // MARK: - Private methods -
+    private func setDataForView() {
         guard let item = item else { return }
-        let model = ItemDetailModel(title: item.title ?? "", price: String(item.price ?? 0.0))
+        let model = ItemDetailModel(
+            address: item.location?.addressLine  ?? "",
+            city: item.location?.city?.name ?? "",
+            price: item.price?.formatCurrency() ?? "",
+            title: item.title ?? "",
+            condition: item.condition ?? .new
+        )
         view.setData(with: model)
     }
 }
