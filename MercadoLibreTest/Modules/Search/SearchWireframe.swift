@@ -25,6 +25,7 @@ final class SearchWireframe: BaseWireframe {
 extension SearchWireframe: SearchWireframeInterface {
     
     func navigateToProductList(query: String, categoryId: String?) {
-        navigationController?.pushWireframe(ProductListWireframe(query: query, categoryId: categoryId))
+        guard let navigationController = navigationController else { return }
+        navigationController.pushViewController(ProductListWireframe(query: query, categoryId: categoryId).viewController, animated: true)
     }
 }

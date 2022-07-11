@@ -13,18 +13,28 @@ final class ProductDetailPresenter {
     private unowned let view: ProductDetailViewInterface
     private let interactor: ProductDetailInteractorInterface
     private let wireframe: ProductDetailWireframeInterface
+    
+    private var productId: String?
 
     // MARK: - Lifecycle -
     init(
         view: ProductDetailViewInterface,
         interactor: ProductDetailInteractorInterface,
-        wireframe: ProductDetailWireframeInterface
+        wireframe: ProductDetailWireframeInterface,
+        productId: String? = nil
     ) {
         self.view = view
         self.interactor = interactor
         self.wireframe = wireframe
+        self.productId = productId
     }
 }
 
 // MARK: - Extensions -
-extension ProductDetailPresenter: ProductDetailPresenterInterface { }
+extension ProductDetailPresenter: ProductDetailPresenterInterface {
+    
+    func viewDidLoad() {
+        guard let productId = productId else { return }
+        interactor.getProductInfo(productId: productId)
+    }
+}

@@ -13,4 +13,6 @@ protocol ProductDetailViewInterface: ViewInterface { }
 
 protocol ProductDetailPresenterInterface: PresenterInterface { }
 
-protocol ProductDetailInteractorInterface: InteractorInterface { }
+protocol ProductDetailInteractorInterface: InteractorInterface {
+    func getProductInfo(productId: String)
+}

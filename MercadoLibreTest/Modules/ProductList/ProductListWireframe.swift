@@ -27,4 +27,9 @@ final class ProductListWireframe: BaseWireframe {
 }
 
 // MARK: - Extensions -
-extension ProductListWireframe: ProductListWireframeInterface { }
+extension ProductListWireframe: ProductListWireframeInterface {
+    
+    func navigateToProducDetail(productId: String) {
+        navigationController?.pushWireframe(ProductDetailWireframe(productId: productId), animated: true)
+    }
+}

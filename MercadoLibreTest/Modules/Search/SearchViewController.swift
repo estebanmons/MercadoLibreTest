@@ -28,11 +28,16 @@ final class SearchViewController: UIViewController {
     // MARK: - Life cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Mercado Libre"
+        title = Constants.Title.search
         view.backgroundColor = .white
         configureNavigationBar()
         setSearchController()
         setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        resultsTableView.reloadData()
     }
     
     private func configureNavigationBar() {
@@ -122,7 +127,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        view.endEditing(true)
+        searchController.searchBar.resignFirstResponder()
         presenter.didSelectItem(row: indexPath.row)
     }
 }

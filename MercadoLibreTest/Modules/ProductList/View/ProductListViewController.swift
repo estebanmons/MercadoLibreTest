@@ -25,8 +25,8 @@ final class ProductListViewController: UIViewController {
     // MARK: - Life cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "Resultados"
-        view.backgroundColor = .yellow
+        title = Constants.Title.productList
+        view.backgroundColor = .systemGray6
         configureNavigationBar()
         setupCollectionView()
         presenter.viewDidLoad()
@@ -42,7 +42,7 @@ final class ProductListViewController: UIViewController {
         navigationController.navigationBar.isTranslucent = false
     }
     
-    func setupCollectionView() {
+    private func setupCollectionView() {
         view.addSubview(productListCollectionView)
         
         NSLayoutConstraint.activate([
@@ -74,12 +74,15 @@ final class ProductListViewController: UIViewController {
 
 // MARK: - Extensions
 extension ProductListViewController: ProductListViewInterface {
+    
     func reloadData() {
         productListCollectionView.reloadData()
     }
 }
 
+// MARK: - Extensions UICollectionView -
 extension ProductListViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return presenter.numberOfItems
     }
@@ -87,14 +90,16 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let collectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ProductListCell", for: indexPath)
         guard let cell = collectionViewCell as? ProducListCollectionViewCell else { return collectionViewCell }
-        
         cell.setData(with: presenter.getItem(at: indexPath.row))
-        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = (productListCollectionView.frame.size.width - CGFloat(10)) / CGFloat(2)
-        return CGSize(width:size, height: 200.0)
+        return CGSize(width: size, height: 200.0)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter.didSelectItem(row: indexPath.row)
     }
 }

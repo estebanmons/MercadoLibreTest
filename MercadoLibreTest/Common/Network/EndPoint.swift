@@ -9,14 +9,14 @@ import Foundation
 
 enum EndPoint {
     case search
-    case productDetail
+    case productDetail(productId: String)
     
     var path: String {
         switch self {
         case .search:
             return baseURL + "sites/MCO/search?q="
-        case .productDetail:
-            return baseURL + "items/"
+        case .productDetail(let productId):
+            return baseURL + "items/\(productId)"
         }
     }
     

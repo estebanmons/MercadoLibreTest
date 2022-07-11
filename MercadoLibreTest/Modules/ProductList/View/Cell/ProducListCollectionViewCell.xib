@@ -71,6 +71,7 @@
             <connections>
                 <outlet property="freeShippingLabel" destination="O4p-pk-mhd" id="eRv-5I-Np4"/>
                 <outlet property="productImageView" destination="9Hx-kb-Aa0" id="YmO-IA-CNE"/>
+                <outlet property="productView" destination="oOF-fM-Vle" id="RYQ-4n-uaA"/>
                 <outlet property="titleLabel" destination="icE-QX-7V4" id="ZP6-ON-PAi"/>
             </connections>
             <point key="canvasLocation" x="155.07246376811597" y="120.53571428571428"/>

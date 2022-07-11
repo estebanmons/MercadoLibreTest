@@ -20,6 +20,8 @@ enum RequestError: Error {
     case serverError
 }
 
+struct EmptyRequest: Encodable { }
+
 class APIManager {
     
     let decoder: JSONDecoder = {

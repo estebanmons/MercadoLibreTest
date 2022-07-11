@@ -68,6 +68,7 @@ extension ProductListPresenter: ProductListPresenterInterface {
     }
     
     func didSelectItem(row: Int) {
-        
+        guard let productId = matchesItems[row].id else { return }
+        wireframe.navigateToProducDetail(productId: productId)
     }
 }

@@ -13,7 +13,9 @@ struct ProductListModel {
     let freeShipping: Bool
 }
 
-protocol ProductListWireframeInterface: WireframeInterface { }
+protocol ProductListWireframeInterface: WireframeInterface {
+    func navigateToProducDetail(productId: String)
+}
 
 protocol ProductListViewInterface: ViewInterface {
     func reloadData()

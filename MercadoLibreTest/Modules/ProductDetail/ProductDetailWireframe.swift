@@ -10,12 +10,17 @@ import Foundation
 final class ProductDetailWireframe: BaseWireframe {
 
     // MARK: - Module setup -
-    init() {
+    init(productId: String) {
         let moduleViewController = ProductDetailViewController()
         super.init(viewController: moduleViewController)
 
         let interactor = ProductDetailInteractor()
-        let presenter = ProductDetailPresenter(view: moduleViewController, interactor: interactor, wireframe: self)
+        let presenter = ProductDetailPresenter(
+            view: moduleViewController,
+            interactor: interactor,
+            wireframe: self,
+            productId: productId
+        )
         moduleViewController.presenter = presenter
     }
 
