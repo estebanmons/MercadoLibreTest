@@ -19,6 +19,7 @@ struct ItemResponse: Codable {
     let permalink: String?
     let pictures: [Picture]?
     let price: Double?
+    let sellerAddress: SellerAddress
     let sellerID: Int?
     let shipping: Shipping?
     let siteID: String?
@@ -37,6 +38,7 @@ struct ItemResponse: Codable {
         case permalink
         case pictures
         case price
+        case sellerAddress = "seller_address"
         case sellerID = "seller_id"
         case shipping
         case siteID = "site_id"
@@ -75,6 +77,24 @@ struct Picture: Codable {
         case secureURL = "secure_url"
         case quality
     }
+}
+
+// MARK: - SellerAddress
+struct SellerAddress: Codable {
+    let city, state, country: City?
+    let searchLocation: SearchLocation?
+    let id: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case city, state, country
+        case searchLocation = "search_location"
+        case id
+    }
+}
+
+// MARK: - SearchLocation
+struct SearchLocation: Codable {
+    let city, state: City?
 }
 
 enum Condition: String, Codable {

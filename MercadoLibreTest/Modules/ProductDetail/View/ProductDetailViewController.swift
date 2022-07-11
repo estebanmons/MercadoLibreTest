@@ -27,16 +27,23 @@ class ProductDetailViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var locationView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
     private lazy var locationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
-        stackView.spacing = 0.0
+        stackView.spacing = 4.0
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
-    private lazy var locationAddressLabel: UILabel = {
+    private lazy var locationTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20.0)
         label.textColor = .darkGray
@@ -45,10 +52,20 @@ class ProductDetailViewController: UIViewController {
         return label
     }()
     
+    
+    private lazy var locationAddressLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20.0)
+        label.textColor = .black
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var locationCityLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20.0)
-        label.textColor = .darkGray
+        label.textColor = .black
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -76,13 +93,6 @@ class ProductDetailViewController: UIViewController {
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
-    }()
-    
-    private lazy var locationView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
     }()
     
     private lazy var tagView: UIView = {
@@ -122,6 +132,7 @@ class ProductDetailViewController: UIViewController {
         containerView.addSubview(priceLabel)
         containerView.addSubview(locationView)
         locationView.addSubview(locationStackView)
+        locationStackView.addArrangedSubview(locationTitleLabel)
         locationStackView.addArrangedSubview(locationAddressLabel)
         locationStackView.addArrangedSubview(locationCityLabel)
     }
@@ -207,6 +218,8 @@ extension ProductDetailViewController: ProductDetailViewInterface {
         titleLabel.text = model.title
         priceLabel.text = model.price
         locationAddressLabel.text = model.address
+        locationTitleLabel.text = Constants.ProductDetail.sellerLocation
+        locationTitleLabel.sizeToFit()
         locationAddressLabel.sizeToFit()
         locationCityLabel.text = model.city
         locationCityLabel.sizeToFit()

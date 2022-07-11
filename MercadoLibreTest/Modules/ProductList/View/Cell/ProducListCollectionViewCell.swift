@@ -55,6 +55,6 @@ class ProducListCollectionViewCell: UICollectionViewCell {
             productImageView.contentMode = .scaleAspectFit
         }
         titleLabel.text = model.title
-        freeShippingLabel.text = model.freeShipping ? "Envio gratis" : "Con costo"
+        freeShippingLabel.text = model.freeShipping ? Constants.ProductList.freeShipping : Constants.ProductList.chargedShipping
     }
 }

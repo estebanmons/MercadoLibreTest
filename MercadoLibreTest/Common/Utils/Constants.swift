@@ -15,6 +15,15 @@ struct Constants {
         static let search = "Mercado Libre"
     }
     
+    struct ProductDetail {
+        static let sellerLocation = "Ubicación del vendedor"
+    }
+    
+    struct ProductList {
+        static let freeShipping = "Envío gratis"
+        static let chargedShipping = "Envío cobrado"
+    }
+    
     struct Search {
         static let searchPlaceholder = "Buscar en Mercado Libre"
     }

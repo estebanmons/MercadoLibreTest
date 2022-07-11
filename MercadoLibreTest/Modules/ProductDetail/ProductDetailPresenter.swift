@@ -34,8 +34,8 @@ final class ProductDetailPresenter {
     private func setDataForView() {
         guard let item = item else { return }
         let model = ItemDetailModel(
-            address: item.location?.addressLine  ?? "",
-            city: item.location?.city?.name ?? "",
+            address: item.sellerAddress.city?.name  ?? "",
+            city: item.sellerAddress.state?.name ?? "",
             price: item.price?.formatCurrency() ?? "",
             title: item.title ?? "",
             condition: item.condition ?? .new
