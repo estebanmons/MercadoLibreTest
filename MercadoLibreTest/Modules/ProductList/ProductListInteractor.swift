@@ -1,5 +1,5 @@
 //
-//  SearchInteractor.swift
+//  HomeInteractor.swift
 //  MercadoLibreTest
 //
 //  Created by Esteban Monsalve on 7/07/22.
@@ -7,26 +7,14 @@
 
 import Foundation
 
-struct MatchesItemsRequest: Encodable {
-    let query: String
-    let limit: Int
-    let category: String?
-    
-    enum CodingKeys: String, CodingKey {
-        case query = "q"
-        case limit
-        case category
-    }
-}
-
-final class SearchInteractor {
+final class ProductListInteractor {
     lazy var apiManager = APIManager()
 }
 
-extension SearchInteractor: SearchInteractorInterface {
+extension ProductListInteractor: ProductListInteractorInterface {
     
-    func requestSearchMatchesItems(text: String, completionHandler: @escaping (SearchMatchesResult) -> Void ) {
-        let parameters = MatchesItemsRequest(query: text, limit: 8, category: nil)
+    func requestSearchMatchesItems(text: String, categoryId: String?, completionHandler: @escaping (SearchMatchesResult) -> Void) {
+        let parameters = MatchesItemsRequest(query: text, limit: 8, category: categoryId)
         apiManager.request(
             parameters: parameters,
             endpoint: .search

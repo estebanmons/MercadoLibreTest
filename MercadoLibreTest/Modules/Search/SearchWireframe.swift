@@ -22,4 +22,9 @@ final class SearchWireframe: BaseWireframe {
 }
 
 // MARK: - Extensions -
-extension SearchWireframe: SearchWireframeInterface { }
+extension SearchWireframe: SearchWireframeInterface {
+    
+    func navigateToProductList(query: String, categoryId: String?) {
+        navigationController?.pushWireframe(ProductListWireframe(query: query, categoryId: categoryId))
+    }
+}

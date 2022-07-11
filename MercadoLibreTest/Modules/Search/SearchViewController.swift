@@ -28,14 +28,21 @@ final class SearchViewController: UIViewController {
     // MARK: - Life cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = "Mercado Libre"
         view.backgroundColor = .white
+        configureNavigationBar()
         setSearchController()
         setupTableView()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        self.searchController.isActive = true
+    private func configureNavigationBar() {
+        guard let navigationController = navigationController else { return }
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .yellow
+        navigationController.navigationBar.standardAppearance = appearance
+        navigationController.navigationBar.scrollEdgeAppearance = UINavigationBar().standardAppearance
+        navigationController.navigationBar.isTranslucent = false
     }
     
     private func setSearchController() {
@@ -73,27 +80,25 @@ extension SearchViewController: SearchViewInterface {
 // MARK: - Extensions  UISearch -
 extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
     
-    func willPresentSearchController(_ searchController: UISearchController) {
-        DispatchQueue.main.async { [weak self] in
-            guard let stronSelf = self else { return }
-            stronSelf.searchController.searchBar.becomeFirstResponder()
-        }
-    }
-    
     func updateSearchResults(for searchController: UISearchController) {
-        
         guard let searchText = searchController.searchBar.text, searchText.count > 2 else { return }
-        
         if searchText.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
             let safeString = searchText.replacingOccurrences(of: " ", with: "%20")
-            presenter.searchItems(text: safeString)
+            presenter.searchItems(with: safeString)
         } else {
-            presenter.searchItems(text: searchText)
+            presenter.searchItems(with: searchText)
         }
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
+        guard let searchText = searchBar.text, searchText.count > 2 else { return }
+        if searchText.rangeOfCharacter(from: .whitespacesAndNewlines) != nil {
+            let safeString = searchText.replacingOccurrences(of: " ", with: "%20")
+            presenter.goToProductList(with: safeString)
+        } else {
+            presenter.goToProductList(with: searchText)
+        }
     }
 }
 
@@ -114,5 +119,10 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        view.endEditing(true)
+        presenter.didSelectItem(row: indexPath.row)
     }
 }

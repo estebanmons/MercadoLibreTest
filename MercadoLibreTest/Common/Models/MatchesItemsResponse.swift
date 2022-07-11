@@ -50,22 +50,22 @@ enum SiteID: String, Codable {
 
 // MARK: - Result
 struct ItemResult: Codable {
-    let id: String?
-    let title: String?
-    let price: Double?
+    let categoryId: String?
     let currencyId: CurrencyID?
-    let thumbnail: String?
+    let id: String?
+    let price: Double?
     let shipping: Shipping?
-
-
-
+    let thumbnail: String?
+    let title: String?
+    
     enum CodingKeys: String, CodingKey {
-        case id
-        case title
-        case price
+        case categoryId = "category_id"
         case currencyId = "currency_id"
-        case thumbnail
+        case id
+        case price
         case shipping
+        case thumbnail
+        case title
     }
 }
 

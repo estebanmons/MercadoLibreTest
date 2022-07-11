@@ -12,7 +12,9 @@ enum SearchMatchesResult {
     case error
 }
 
-protocol SearchWireframeInterface: WireframeInterface { }
+protocol SearchWireframeInterface: WireframeInterface {
+    func navigateToProductList(query: String, categoryId: String?)
+}
 
 protocol SearchViewInterface: ViewInterface {
     func reloadData()
@@ -21,7 +23,9 @@ protocol SearchViewInterface: ViewInterface {
 protocol SearchPresenterInterface: PresenterInterface {
     var numberOfItems: Int { get }
     func getItem(at row: Int) -> MatchesItemsModel
-    func searchItems(text: String)
+    func searchItems(with text: String)
+    func didSelectItem(row: Int)
+    func goToProductList(with text: String)
 }
 
 protocol SearchInteractorInterface: InteractorInterface {

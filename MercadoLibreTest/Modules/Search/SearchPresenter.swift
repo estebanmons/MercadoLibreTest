@@ -18,7 +18,8 @@ final class SearchPresenter {
     private let interactor: SearchInteractorInterface
     private let wireframe: SearchWireframeInterface
     
-    private var matchesItems = [MatchesItemsModel]()
+    private var matchesItems = [ItemResult]()
+    private var query: String = ""
 
     // MARK: - Lifecycle -
     init(
@@ -41,22 +42,30 @@ extension SearchPresenter: SearchPresenterInterface {
     
     func getItem(at row: Int) -> MatchesItemsModel {
         let item = matchesItems[row]
-        return item
+        return MatchesItemsModel(match: item.title ?? "")
     }
     
-    func searchItems(text: String) {
+    func searchItems(with text: String) {
+        query = text
         interactor.requestSearchMatchesItems(text: text) { [weak self] result in
             guard let strongSelf = self else { return }
             switch result {
             case .success(let data):
                 strongSelf.matchesItems = []
-                data.forEach { item in
-                    strongSelf.matchesItems.append(MatchesItemsModel(match: item.title ?? ""))
-                }
+                strongSelf.matchesItems = data
                 strongSelf.view.reloadData()
             case .error:
                 break
             }
         }
+    }
+    
+    func didSelectItem(row: Int) {
+        let item = matchesItems[row]
+        wireframe.navigateToProductList(query: query, categoryId: item.categoryId)
+    }
+    
+    func goToProductList(with text: String) {
+        wireframe.navigateToProductList(query: query, categoryId: nil)
     }
 }
