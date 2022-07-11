@@ -7,10 +7,23 @@
 
 import Foundation
 
+enum SearchMatchesResult {
+    case success([ItemResult])
+    case error
+}
+
 protocol SearchWireframeInterface: WireframeInterface { }
 
-protocol SearchViewInterface: ViewInterface { }
+protocol SearchViewInterface: ViewInterface {
+    func reloadData()
+}
 
-protocol SearchPresenterInterface: PresenterInterface { }
+protocol SearchPresenterInterface: PresenterInterface {
+    var numberOfItems: Int { get }
+    func getItem(at row: Int) -> MatchesItemsModel
+    func searchItems(text: String)
+}
 
-protocol SearchInteractorInterface: InteractorInterface { }
+protocol SearchInteractorInterface: InteractorInterface {
+    func requestSearchMatchesItems(text: String, completionHandler: @escaping (SearchMatchesResult) -> Void)
+}

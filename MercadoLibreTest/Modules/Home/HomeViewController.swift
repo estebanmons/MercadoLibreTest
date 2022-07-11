@@ -9,8 +9,10 @@ import UIKit
 
 final class HomeViewController: UIViewController {
     
+    // MARK: - Public properties -
     var presenter: HomePresenterInterface!
-
+    
+    // MARK: - Life cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Challenge"
