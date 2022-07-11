@@ -246,7 +246,8 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let collectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath)
         guard let cell = collectionViewCell as? ImageCollectionViewCell else { return collectionViewCell }
-        cell.setImage(with: presenter.getItemImage(at: indexPath.row))
+        let counter = "\(indexPath.row + 1) / \(presenter.numberOfPictures)"
+        cell.setData(with: presenter.getItemImage(at: indexPath.row), counter: counter)
         return cell
     }
     
