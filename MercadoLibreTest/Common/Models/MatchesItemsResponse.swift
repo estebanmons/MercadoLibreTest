@@ -7,7 +7,7 @@
 
 import Foundation
 
-// MARK: - Welcome
+// MARK: - MatchesItemsResponse
 struct MatchesItemsResponse: Codable {
     let countryDefaultTimeZone: String?
     let paging: Paging?

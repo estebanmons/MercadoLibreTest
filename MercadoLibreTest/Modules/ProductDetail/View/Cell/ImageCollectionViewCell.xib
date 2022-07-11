@@ -16,13 +16,18 @@
                 <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Srn-1S-nU2">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Srn-1S-nU2">
                         <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>
             </view>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <constraints>
+                <constraint firstItem="Srn-1S-nU2" firstAttribute="leading" secondItem="ZTg-uK-7eu" secondAttribute="leading" id="EWC-UR-CFz"/>
+                <constraint firstAttribute="top" secondItem="Srn-1S-nU2" secondAttribute="top" id="Kj8-jT-uev"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="trailing" secondItem="Srn-1S-nU2" secondAttribute="trailing" id="bUu-SH-gtF"/>
+                <constraint firstItem="ZTg-uK-7eu" firstAttribute="bottom" secondItem="Srn-1S-nU2" secondAttribute="bottom" id="dKZ-DK-hot"/>
+            </constraints>
             <size key="customSize" width="188" height="89"/>
             <connections>
                 <outlet property="imageView" destination="Srn-1S-nU2" id="unn-ch-Y47"/>

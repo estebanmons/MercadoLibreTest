@@ -56,6 +56,7 @@ final class SearchViewController: UIViewController {
         searchController.searchBar.delegate = self
         searchController.searchBar.autocapitalizationType = .none
         searchController.obscuresBackgroundDuringPresentation = false
+        searchController.searchBar.placeholder = Constants.Search.searchPlaceholder
         self.definesPresentationContext = true
         navigationItem.searchController = searchController
     }

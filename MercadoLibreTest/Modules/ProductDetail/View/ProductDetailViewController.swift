@@ -16,11 +16,12 @@ class ProductDetailViewController: UIViewController {
         return view
     }()
     
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.backgroundColor = .white
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        return scrollView
+    private lazy var priceLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14.0)
+        label.textColor = .darkText
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private lazy var imagesCollectionView: UICollectionView = {
@@ -33,6 +34,13 @@ class ProductDetailViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .white
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .boldSystemFont(ofSize: 16.0)
@@ -41,13 +49,7 @@ class ProductDetailViewController: UIViewController {
         return label
     }()
     
-    private lazy var descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 14.0)
-        label.textColor = .darkText
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    var index: Int = 0
     
     // MARK: - Public properties -
     var presenter: ProductDetailPresenterInterface!
@@ -55,6 +57,7 @@ class ProductDetailViewController: UIViewController {
     // MARK: - Life cycle -
     override func viewDidLoad() {
         super.viewDidLoad()
+        title = Constants.Title.productDetail
         setupView()
         presenter.viewDidLoad()
     }
@@ -64,7 +67,7 @@ class ProductDetailViewController: UIViewController {
         scrollView.addSubview(containerView)
         containerView.addSubview(titleLabel)
         containerView.addSubview(imagesCollectionView)
-        containerView.addSubview(descriptionLabel)
+        containerView.addSubview(priceLabel)
     }
     
     private func setConstraints() {
@@ -74,10 +77,10 @@ class ProductDetailViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: view.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 8.0),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
@@ -86,11 +89,11 @@ class ProductDetailViewController: UIViewController {
             imagesCollectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8.0),
             imagesCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             imagesCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
+            imagesCollectionView.heightAnchor.constraint(equalToConstant: 200.0),
             
-            descriptionLabel.topAnchor.constraint(equalTo: imagesCollectionView.bottomAnchor, constant: 8.0),
-            descriptionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
-            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0),
-            descriptionLabel.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -8.0)
+            priceLabel.topAnchor.constraint(equalTo: imagesCollectionView.bottomAnchor, constant: 8.0),
+            priceLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
+            priceLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -8.0)
         ])
     }
     
@@ -103,15 +106,15 @@ class ProductDetailViewController: UIViewController {
             forCellWithReuseIdentifier: "ImageCell"
         )
         
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .horizontal
-        flowLayout.itemSize.height = 120.0
-        flowLayout.itemSize.width = imagesCollectionView.frame.size.width
-        flowLayout.minimumLineSpacing = 0.0
-        imagesCollectionView.collectionViewLayout = flowLayout
-        
         imagesCollectionView.delegate = self
         imagesCollectionView.dataSource = self
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .horizontal
+        flowLayout.minimumLineSpacing = 0.0
+        flowLayout.minimumInteritemSpacing = 0.0
+        imagesCollectionView.collectionViewLayout = flowLayout
+        imagesCollectionView.isPagingEnabled = true
     }
     
     private func setupView() {
@@ -123,16 +126,30 @@ class ProductDetailViewController: UIViewController {
 }
 
 // MARK: - Extensions -
-extension ProductDetailViewController: ProductDetailViewInterface { }
+extension ProductDetailViewController: ProductDetailViewInterface {
+    
+    func setData(with model: ItemDetailModel) {
+        titleLabel.text = model.title
+        priceLabel.text = model.price
+        imagesCollectionView.reloadData()
+    }
+}
 
 // MARK: - Extensions UICollectionView -
 extension ProductDetailViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return presenter.numberOfPictures
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        return UICollectionViewCell()
+        let collectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath)
+        guard let cell = collectionViewCell as? ImageCollectionViewCell else { return collectionViewCell }
+        cell.setImage(with: presenter.getItemImage(at: indexPath.row))
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: imagesCollectionView.frame.size.width, height: imagesCollectionView.frame.size.height)
     }
 }

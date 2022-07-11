@@ -13,10 +13,15 @@ final class ProductDetailInteractor {
 
 extension ProductDetailInteractor: ProductDetailInteractorInterface {
     
-    func getProductInfo(productId: String) {
+    func getProductInfo(productId: String, completionHandler: @escaping (ProductInfoResult) -> Void) {
         apiManager.request(parameters: EmptyRequest(), endpoint: .productDetail(productId: productId)) {
-            (result: Result<MatchesItemsResponse>) in
-            
+            (result: Result<ItemResponse>) in
+            switch result {
+            case .success(let data):
+                completionHandler(.success(data))
+            case .error:
+                completionHandler(.error)
+            }
         }
     }
 }
