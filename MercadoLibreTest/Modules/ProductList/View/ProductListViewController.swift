@@ -62,7 +62,7 @@ final class ProductListViewController: UIViewController {
         
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize.height = 200.0
+        flowLayout.itemSize.height = 230.0
         flowLayout.itemSize.width = (productListCollectionView.frame.size.width - CGFloat(10)) / CGFloat(2)
         flowLayout.minimumLineSpacing = 10.0
         productListCollectionView.collectionViewLayout = flowLayout
@@ -96,7 +96,7 @@ extension ProductListViewController: UICollectionViewDataSource, UICollectionVie
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let size = (productListCollectionView.frame.size.width - CGFloat(10)) / CGFloat(2)
-        return CGSize(width: size, height: 200.0)
+        return CGSize(width: size, height: 230.0)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

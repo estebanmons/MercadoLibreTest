@@ -17,6 +17,22 @@ class ProductDetailViewController: UIViewController {
         return view
     }()
     
+    private lazy var counterView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .systemGray6
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private lazy var counterLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 14.0)
+        label.textColor = .black
+        label.numberOfLines = 1
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var imagesCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -127,6 +143,8 @@ class ProductDetailViewController: UIViewController {
         scrollView.addSubview(containerView)
         containerView.addSubview(titleLabel)
         containerView.addSubview(imagesCollectionView)
+        containerView.addSubview(counterView)
+        counterView.addSubview(counterLabel)
         containerView.addSubview(tagView)
         tagView.addSubview(tagLabel)
         containerView.addSubview(priceLabel)
@@ -157,6 +175,14 @@ class ProductDetailViewController: UIViewController {
             imagesCollectionView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
             imagesCollectionView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             imagesCollectionView.heightAnchor.constraint(equalToConstant: 200.0),
+            
+            counterView.topAnchor.constraint(equalTo: imagesCollectionView.topAnchor, constant: -4.0),
+            counterView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 8.0),
+            counterView.heightAnchor.constraint(equalToConstant: 20.0),
+            counterView.widthAnchor.constraint(equalToConstant: 40.0),
+            
+            counterLabel.centerXAnchor.constraint(equalTo: counterView.centerXAnchor),
+            counterLabel.centerYAnchor.constraint(equalTo: counterView.centerYAnchor),
             
             tagView.topAnchor.constraint(equalTo: imagesCollectionView.bottomAnchor, constant: 16.0),
             tagView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
@@ -202,6 +228,8 @@ class ProductDetailViewController: UIViewController {
     }
     
     private func setupView() {
+        counterView.layer.cornerRadius = 4.0
+        counterView.layer.masksToBounds = true
         tagView.layer.cornerRadius = 4.0
         tagView.layer.masksToBounds = true
         addViews()
@@ -232,6 +260,7 @@ extension ProductDetailViewController: ProductDetailViewInterface {
             tagView.backgroundColor = .systemOrange
         }
         
+        counterLabel.text = "1 / \(presenter.numberOfPictures)"
         imagesCollectionView.reloadData()
     }
 }
@@ -246,12 +275,19 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let collectionViewCell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageCell", for: indexPath)
         guard let cell = collectionViewCell as? ImageCollectionViewCell else { return collectionViewCell }
-        let counter = "\(indexPath.row + 1) / \(presenter.numberOfPictures)"
-        cell.setData(with: presenter.getItemImage(at: indexPath.row), counter: counter)
+        cell.setData(with: presenter.getItemImage(at: indexPath.row))
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: imagesCollectionView.frame.size.width, height: imagesCollectionView.frame.size.height)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let visibleRect = CGRect(origin: self.imagesCollectionView.contentOffset, size: self.imagesCollectionView.bounds.size)
+        let visiblePoint = CGPoint(x: visibleRect.midX, y: visibleRect.midY)
+        if let visibleIndexPath = self.imagesCollectionView.indexPathForItem(at: visiblePoint) {
+            counterLabel.text = "\(visibleIndexPath.row + 1) / \(presenter.numberOfPictures)"
+        }
     }
 }

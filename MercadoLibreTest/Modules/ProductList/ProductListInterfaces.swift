@@ -8,9 +8,10 @@
 import Foundation
 
 struct ProductListModel {
+    let freeShipping: Bool
+    let price: String
     let title: String
     let url: String
-    let freeShipping: Bool
 }
 
 protocol ProductListWireframeInterface: WireframeInterface {

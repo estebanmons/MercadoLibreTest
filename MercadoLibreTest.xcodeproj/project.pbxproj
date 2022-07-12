@@ -247,6 +247,14 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		47E168E3287CF19200741ECA /* View */ = {
+			isa = PBXGroup;
+			children = (
+				47F351352877D0040005B5AE /* SearchViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		47F351202877CA860005B5AE /* Base */ = {
 			isa = PBXGroup;
 			children = (
@@ -295,10 +303,10 @@
 		47F3512E2877CF8F0005B5AE /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				47E168E3287CF19200741ECA /* View */,
 				47F3512F2877CFAF0005B5AE /* SearchInteractor.swift */,
 				47F351312877CFC10005B5AE /* SearchInterfaces.swift */,
 				47F351332877CFE70005B5AE /* SearchPresenter.swift */,
-				47F351352877D0040005B5AE /* SearchViewController.swift */,
 				47F351382877D08E0005B5AE /* SearchWireframe.swift */,
 			);
 			path = Search;

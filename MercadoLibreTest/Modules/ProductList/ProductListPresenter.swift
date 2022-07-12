@@ -62,9 +62,10 @@ extension ProductListPresenter: ProductListPresenterInterface {
     func getItem(at row: Int) -> ProductListModel {
         let item = matchesItems[row]
         return ProductListModel(
+            freeShipping: item.shipping?.freeShipping ?? false,
+            price: String(item.price?.formatCurrency() ?? "0.0"),
             title: item.title ?? "",
-            url: item.thumbnail ?? "",
-            freeShipping: item.shipping?.freeShipping ?? false
+            url: item.thumbnail ?? ""
         )
     }
     

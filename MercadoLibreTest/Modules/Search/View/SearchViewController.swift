@@ -119,7 +119,7 @@ extension SearchViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: cell, for: indexPath)
         cell.textLabel?.text = presenter.getItem(at: indexPath.row).match
-        cell.imageView?.image = UIImage(systemName: "heart.fill")
+        cell.imageView?.image = UIImage(systemName: Constants.Search.searchImage)
         cell.accessoryType = .disclosureIndicator
         return cell
     }

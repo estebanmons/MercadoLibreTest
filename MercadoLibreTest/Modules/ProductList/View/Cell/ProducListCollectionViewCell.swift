@@ -14,7 +14,8 @@ class ProducListCollectionViewCell: UICollectionViewCell {
     @IBOutlet private weak var productImageView: UIImageView!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var freeShippingLabel: UILabel!
-
+    @IBOutlet weak var priceLabel: UILabel!
+    
     // MARK: - Life cycle -
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -44,8 +45,10 @@ class ProducListCollectionViewCell: UICollectionViewCell {
     private func setupView() {
         titleLabel.font = .systemFont(ofSize: 16.0)
         titleLabel.textColor = .darkGray
+        priceLabel.font = .boldSystemFont(ofSize: 20.0)
+        priceLabel.textColor = .systemGreen
         freeShippingLabel.font = .boldSystemFont(ofSize: 13)
-        freeShippingLabel.textColor = .systemGreen
+        freeShippingLabel.textColor = .darkGray
     }
     
     // MARK: - Public methods -
@@ -55,6 +58,7 @@ class ProducListCollectionViewCell: UICollectionViewCell {
             productImageView.contentMode = .scaleAspectFit
         }
         titleLabel.text = model.title
+        priceLabel.text = model.price
         freeShippingLabel.text = model.freeShipping ? Constants.ProductList.freeShipping : Constants.ProductList.chargedShipping
     }
 }

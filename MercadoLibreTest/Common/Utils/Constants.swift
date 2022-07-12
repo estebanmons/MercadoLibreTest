@@ -21,11 +21,12 @@ struct Constants {
     
     struct ProductList {
         static let freeShipping = "Envío gratis"
-        static let chargedShipping = "Envío cobrado"
+        static let chargedShipping = "Envío con cargo"
     }
     
     struct Search {
         static let searchPlaceholder = "Buscar en Mercado Libre"
+        static let searchImage = "magnifyingglass.circle.fill"
     }
     
     struct Condition {
