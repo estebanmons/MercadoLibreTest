@@ -37,3 +37,6 @@ Continuamos con el módulo que nos lista los resultados de la búsqueda, ya sea 
 ## ProductDetail
 
 Para finalizar, se crea el módulo que muestra el detalle del producto. Con un slides de imágenes, título, si el producto es nuevo o usado y la ubicación del vendedor.
+
+# Juan Esteban Monsalve
+## iOS Developer
