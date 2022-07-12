@@ -61,7 +61,11 @@ extension ProductDetailPresenter: ProductDetailPresenterInterface {
                 strongSelf.item = item
                 strongSelf.setDataForView()
             case .error:
-                break
+                let action: () -> Void = { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.wireframe.goToBack()
+                }
+                strongSelf.wireframe.showAlertWithAction(Constants.Alert.title, message: Constants.Alert.message, handler: action)
             }
         }
     }

@@ -35,11 +35,6 @@ final class SearchViewController: UIViewController {
         setupTableView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        resultsTableView.reloadData()
-    }
-    
     // MARK: - Private methods -
     private func configureNavigationBar() {
         guard let navigationController = navigationController else { return }
@@ -106,6 +101,15 @@ extension SearchViewController: UISearchControllerDelegate, UISearchResultsUpdat
         } else {
             presenter.goToProductList(with: searchText)
         }
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchText.isEmpty {
+            DispatchQueue.main.async { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.presenter.resetData()
+            }
+         }
     }
 }
 

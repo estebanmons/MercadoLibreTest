@@ -25,7 +25,8 @@ class ImageCollectionViewCell: UICollectionViewCell {
     // MARK: - Public methods -
     func setData(with url: String) {
         if let imageURL = URL(string: (url.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) ?? "")) {
-            imageView.kf.setImage(with: imageURL)
+            let placeholder = UIImage(named: Constants.ProductDetail.noImage)
+            imageView.kf.setImage(with: imageURL, placeholder: placeholder)
             imageView.contentMode = .scaleAspectFit
         }
     }

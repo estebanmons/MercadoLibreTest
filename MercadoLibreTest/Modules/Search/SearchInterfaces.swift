@@ -38,6 +38,7 @@ protocol SearchPresenterInterface: PresenterInterface {
     func searchItems(with text: String)
     func didSelectItem(row: Int)
     func goToProductList(with text: String)
+    func resetData()
 }
 
 protocol SearchInteractorInterface: InteractorInterface {

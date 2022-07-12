@@ -27,4 +27,9 @@ final class ProductDetailWireframe: BaseWireframe {
 }
 
 // MARK: - Extensions -
-extension ProductDetailWireframe: ProductDetailWireframeInterface { }
+extension ProductDetailWireframe: ProductDetailWireframeInterface {
+    
+    func goToBack() {
+        navigationController?.popViewController(animated: true)
+    }
+}

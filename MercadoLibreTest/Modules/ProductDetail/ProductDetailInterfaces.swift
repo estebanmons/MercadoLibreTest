@@ -20,7 +20,9 @@ struct ItemDetailModel {
     let condition: Condition
 }
 
-protocol ProductDetailWireframeInterface: WireframeInterface { }
+protocol ProductDetailWireframeInterface: WireframeInterface {
+    func goToBack()
+}
 
 protocol ProductDetailViewInterface: ViewInterface {
     func setData(with model: ItemDetailModel)

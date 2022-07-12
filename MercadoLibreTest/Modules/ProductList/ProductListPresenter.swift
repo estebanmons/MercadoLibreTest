@@ -40,9 +40,17 @@ final class ProductListPresenter {
             switch result {
             case .success(let data):
                 strongSelf.matchesItems = data
-                strongSelf.view.reloadData()
+                if strongSelf.matchesItems.isEmpty {
+                    strongSelf.view.showNoResults()
+                } else {
+                    strongSelf.view.reloadData()
+                }
             case .error:
-                break
+                let action: () -> Void = { [weak self] in
+                    guard let strongSelf = self else { return }
+                    strongSelf.wireframe.goToBack()
+                }
+                strongSelf.wireframe.showAlertWithAction(Constants.Alert.title, message: Constants.Alert.message, handler: action)
             }
         }
     }

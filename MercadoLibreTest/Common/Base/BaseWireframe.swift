@@ -7,8 +7,17 @@
 
 import UIKit
 
-protocol WireframeInterface: AnyObject { }
-extension WireframeInterface { }
+protocol WireframeInterface: AnyObject {
+    
+    func showAlertWithAction(_ title: String, message: String, handler: @escaping () -> Void)
+}
+
+extension WireframeInterface {
+    
+    func showAlertWithAction(_ title: String, message: String, handler: @escaping () -> Void) {
+        showAlertWithAction(title, message: message, handler: handler)
+    }
+}
 
 class BaseWireframe {
 
@@ -23,7 +32,16 @@ class BaseWireframe {
     }
 }
 
-extension BaseWireframe: WireframeInterface { }
+extension BaseWireframe: WireframeInterface {
+    
+    func showAlertWithAction(
+        _ title: String,
+        message: String,
+        handler: @escaping () -> Void
+    ) {
+        self.viewController.showAlertWithActions(title, message: message, handler: handler)
+    }
+}
 
 extension BaseWireframe {
 
@@ -41,6 +59,21 @@ extension UIViewController {
 
     func presentWireframe(_ wireframe: BaseWireframe, animated: Bool = true, completion: (()->())? = nil) {
         present(wireframe.viewController, animated: animated, completion: completion)
+    }
+    
+    func showAlertWithActions(
+        _ title: String,
+        message: String,
+        handler: @escaping () -> Void
+    ) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let action = UIAlertAction(title: Constants.Alert.accept, style: .cancel, handler: { _ in
+            handler()
+        })
+        alertController.addAction(action)
+        DispatchQueue.main.async(execute: {
+            self.present(alertController, animated: true, completion: nil)
+        })
     }
 }
 

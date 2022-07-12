@@ -19,6 +19,17 @@ final class ProductListViewController: UIViewController {
         return collectionView
     }()
     
+    private lazy var noResultsLabel: UILabel = {
+        let label = UILabel()
+        label.font = .boldSystemFont(ofSize: 18.0)
+        label.textColor = .darkGray
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.text = Constants.ProductList.noResults
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     // MARK: - Public properties -
     var presenter: ProductListPresenterInterface!
     
@@ -28,7 +39,7 @@ final class ProductListViewController: UIViewController {
         title = Constants.Title.productList
         view.backgroundColor = .systemGray6
         configureNavigationBar()
-        setupCollectionView()
+        setupView()
         presenter.viewDidLoad()
     }
     
@@ -43,15 +54,6 @@ final class ProductListViewController: UIViewController {
     }
     
     private func setupCollectionView() {
-        view.addSubview(productListCollectionView)
-        
-        NSLayoutConstraint.activate([
-            productListCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8.0),
-            productListCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
-            productListCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
-            productListCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 8.0)
-        ])
-        
         productListCollectionView.register(
             UINib(
                 nibName: "ProducListCollectionViewCell",
@@ -70,13 +72,44 @@ final class ProductListViewController: UIViewController {
         productListCollectionView.delegate = self
         productListCollectionView.dataSource = self
     }
+    
+    private func addViews() {
+        view.addSubview(productListCollectionView)
+        view.addSubview(noResultsLabel)
+    }
+    
+    private func setConstraints() {
+        NSLayoutConstraint.activate([
+            productListCollectionView.topAnchor.constraint(equalTo: view.topAnchor, constant: 8.0),
+            productListCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
+            productListCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0),
+            productListCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 8.0),
+            
+            noResultsLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            noResultsLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            noResultsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8.0),
+            noResultsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8.0)
+        ])
+    }
+    
+    private func setupView() {
+        addViews()
+        setConstraints()
+        setupCollectionView()
+        noResultsLabel.isHidden = true
+    }
 }
 
 // MARK: - Extensions
 extension ProductListViewController: ProductListViewInterface {
     
     func reloadData() {
+        noResultsLabel.isHidden = true
         productListCollectionView.reloadData()
+    }
+    
+    func showNoResults() {
+        noResultsLabel.isHidden = false
     }
 }
 

@@ -16,10 +16,12 @@ struct ProductListModel {
 
 protocol ProductListWireframeInterface: WireframeInterface {
     func navigateToProducDetail(productId: String)
+    func goToBack()
 }
 
 protocol ProductListViewInterface: ViewInterface {
     func reloadData()
+    func showNoResults()
 }
 
 protocol ProductListPresenterInterface: PresenterInterface {

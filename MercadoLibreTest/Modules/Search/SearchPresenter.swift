@@ -55,7 +55,7 @@ extension SearchPresenter: SearchPresenterInterface {
                 strongSelf.matchesItems = data
                 strongSelf.view.reloadData()
             case .error:
-                break
+                strongSelf.wireframe.showAlertWithAction(Constants.Alert.title, message: Constants.Alert.message) { return }
             }
         }
     }
@@ -67,5 +67,10 @@ extension SearchPresenter: SearchPresenterInterface {
     
     func goToProductList(with text: String) {
         wireframe.navigateToProductList(query: query, categoryId: nil)
+    }
+    
+    func resetData() {
+        matchesItems = []
+        view.reloadData()
     }
 }

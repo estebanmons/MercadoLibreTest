@@ -17,11 +17,13 @@ struct Constants {
     
     struct ProductDetail {
         static let sellerLocation = "Ubicación del vendedor"
+        static let noImage = "no-image"
     }
     
     struct ProductList {
         static let freeShipping = "Envío gratis"
         static let chargedShipping = "Envío con cargo"
+        static let noResults = "No se encontraron resultados para esta búsqueda"
     }
     
     struct Search {
@@ -32,5 +34,11 @@ struct Constants {
     struct Condition {
         static let new = "Nuevo"
         static let used = "Usado"
+    }
+    
+    struct Alert {
+        static let accept = "Aceptar"
+        static let title = "Advertencia"
+        static let message = "Se ha producido un incoveniente, vuelve a reintentar por favor."
     }
 }

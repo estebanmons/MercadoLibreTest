@@ -32,4 +32,8 @@ extension ProductListWireframe: ProductListWireframeInterface {
     func navigateToProducDetail(productId: String) {
         navigationController?.pushWireframe(ProductDetailWireframe(productId: productId), animated: true)
     }
+    
+    func goToBack() {
+        navigationController?.popViewController(animated: true)
+    }
 }
