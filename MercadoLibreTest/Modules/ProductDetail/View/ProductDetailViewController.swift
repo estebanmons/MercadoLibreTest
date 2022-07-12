@@ -10,6 +10,25 @@ import UIKit
 class ProductDetailViewController: UIViewController {
     
     // MARK: - Private properties -
+    lazy var attributesTableView: UITableView = {
+        let tableView = UITableView(frame: CGRect.zero, style: .plain)
+        tableView.allowsSelectionDuringEditing = false
+        tableView.separatorStyle = .singleLine
+        tableView.rowHeight = UITableView.automaticDimension
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
+    private lazy var attributesLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 20.0)
+        label.textColor = .systemGreen
+        label.numberOfLines = 1
+        label.text = Constants.ProductDetail.attributes
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
     private lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -62,7 +81,7 @@ class ProductDetailViewController: UIViewController {
     private lazy var locationTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 20.0)
-        label.textColor = .darkGray
+        label.textColor = .systemGreen
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -127,6 +146,8 @@ class ProductDetailViewController: UIViewController {
         return label
     }()
     
+    private let cellIdentifier = "cellTableView"
+    
     // MARK: - Public properties -
     var presenter: ProductDetailPresenterInterface!
     
@@ -150,6 +171,8 @@ class ProductDetailViewController: UIViewController {
         containerView.addSubview(priceLabel)
         containerView.addSubview(locationView)
         locationView.addSubview(locationStackView)
+        containerView.addSubview(attributesTableView)
+        containerView.addSubview(attributesLabel)
         locationStackView.addArrangedSubview(locationTitleLabel)
         locationStackView.addArrangedSubview(locationAddressLabel)
         locationStackView.addArrangedSubview(locationCityLabel)
@@ -162,10 +185,12 @@ class ProductDetailViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            containerView.topAnchor.constraint(equalTo: view.topAnchor),
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            containerView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            containerView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            containerView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            containerView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            containerView.heightAnchor.constraint(equalToConstant: 750),
             
             titleLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 16.0),
             titleLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
@@ -199,11 +224,21 @@ class ProductDetailViewController: UIViewController {
             locationView.topAnchor.constraint(equalTo: priceLabel.bottomAnchor, constant: 16.0),
             locationView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
             locationView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.0),
+            locationView.heightAnchor.constraint(equalToConstant: 90.0),
             
             locationStackView.topAnchor.constraint(equalTo: locationView.topAnchor),
             locationStackView.leadingAnchor.constraint(equalTo: locationView.leadingAnchor),
             locationStackView.trailingAnchor.constraint(equalTo: locationView.trailingAnchor),
-            locationStackView.bottomAnchor.constraint(equalTo: locationView.bottomAnchor)
+            locationStackView.bottomAnchor.constraint(equalTo: locationView.bottomAnchor),
+            
+            attributesLabel.topAnchor.constraint(equalTo: locationStackView.bottomAnchor, constant: 16.0),
+            attributesLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
+            attributesLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.0),
+            
+            attributesTableView.topAnchor.constraint(equalTo: attributesLabel.bottomAnchor, constant: 4.0),
+            attributesTableView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 16.0),
+            attributesTableView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -16.0),
+            attributesTableView.heightAnchor.constraint(equalToConstant: 200.0)
         ])
     }
     
@@ -227,6 +262,12 @@ class ProductDetailViewController: UIViewController {
         imagesCollectionView.isPagingEnabled = true
     }
     
+    private func setupTableView() {
+        attributesTableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        attributesTableView.dataSource = self
+        attributesTableView.delegate = self
+    }
+    
     private func setupView() {
         counterView.layer.cornerRadius = 4.0
         counterView.layer.masksToBounds = true
@@ -235,6 +276,7 @@ class ProductDetailViewController: UIViewController {
         addViews()
         setConstraints()
         setupCollectionView()
+        setupTableView()
     }
     
 }
@@ -258,10 +300,13 @@ extension ProductDetailViewController: ProductDetailViewInterface {
         case .used:
             tagLabel.text = Constants.Condition.used
             tagView.backgroundColor = .systemOrange
+        case .unowned:
+            tagView.isHidden = true
         }
         
         counterLabel.text = "1 / \(presenter.numberOfPictures)"
         imagesCollectionView.reloadData()
+        attributesTableView.reloadData()
     }
 }
 
@@ -289,5 +334,26 @@ extension ProductDetailViewController: UICollectionViewDataSource, UICollectionV
         if let visibleIndexPath = self.imagesCollectionView.indexPathForItem(at: visiblePoint) {
             counterLabel.text = "\(visibleIndexPath.row + 1) / \(presenter.numberOfPictures)"
         }
+    }
+}
+
+// MARK: - Extensions UITableView -
+extension ProductDetailViewController: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return presenter.numberOfAttributes
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        cell = UITableViewCell(style: .subtitle, reuseIdentifier: cellIdentifier)
+        let attribute = presenter.getAttribute(at: indexPath.row)
+        cell.textLabel?.text = attribute.name
+        cell.detailTextLabel?.text = attribute.value
+        return cell
     }
 }

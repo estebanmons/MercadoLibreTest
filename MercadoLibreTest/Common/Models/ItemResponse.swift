@@ -10,6 +10,7 @@ import Foundation
 // MARK: - ItemResponse
 struct ItemResponse: Codable {
     let acceptsMercadopago: Bool?
+    let attributes: [Attribute]?
     let availableQuantity: Int?
     let categoryID: String?
     let condition: Condition?
@@ -25,10 +26,10 @@ struct ItemResponse: Codable {
     let siteID: String?
     let thumbnail: String?
     let title: String?
-    let videoID: String?
 
     enum CodingKeys: String, CodingKey {
         case acceptsMercadopago = "accepts_mercadopago"
+        case attributes
         case availableQuantity = "available_quantity"
         case categoryID = "category_id"
         case condition
@@ -44,7 +45,21 @@ struct ItemResponse: Codable {
         case siteID = "site_id"
         case thumbnail
         case title
-        case videoID = "video_id"
+    }
+}
+
+// MARK: - Attribute
+struct Attribute: Codable {
+    let id: String?
+    let name: String?
+    let valueID: String?
+    let valueName: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case valueID = "value_id"
+        case valueName = "value_name"
     }
 }
 
@@ -100,4 +115,5 @@ struct SearchLocation: Codable {
 enum Condition: String, Codable {
     case new
     case used
+    case unowned
 }

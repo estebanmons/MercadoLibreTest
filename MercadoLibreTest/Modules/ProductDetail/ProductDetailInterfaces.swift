@@ -20,6 +20,11 @@ struct ItemDetailModel {
     let condition: Condition
 }
 
+struct AttributeModel {
+    let name: String
+    let value: String
+}
+
 protocol ProductDetailWireframeInterface: WireframeInterface {
     func goToBack()
 }
@@ -30,7 +35,9 @@ protocol ProductDetailViewInterface: ViewInterface {
 
 protocol ProductDetailPresenterInterface: PresenterInterface {
     var numberOfPictures: Int { get }
+    var numberOfAttributes: Int { get }
     func getItemImage(at row: Int) -> String
+    func getAttribute(at row: Int) -> AttributeModel
 }
 
 protocol ProductDetailInteractorInterface: InteractorInterface {

@@ -18,6 +18,7 @@ struct Constants {
     struct ProductDetail {
         static let sellerLocation = "Ubicación del vendedor"
         static let noImage = "no-image"
+        static let attributes = "Características"
     }
     
     struct ProductList {

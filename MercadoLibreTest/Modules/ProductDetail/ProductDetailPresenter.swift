@@ -16,6 +16,7 @@ final class ProductDetailPresenter {
     
     private var productId: String?
     private var item: ItemResponse?
+    private var attributes: [AttributeModel] = []
 
     // MARK: - Lifecycle -
     init(
@@ -52,6 +53,10 @@ extension ProductDetailPresenter: ProductDetailPresenterInterface {
         return pictures.count
     }
     
+    var numberOfAttributes: Int {
+        return attributes.count
+    }
+    
     func viewDidLoad() {
         guard let productId = productId else { return }
         interactor.getProductInfo(productId: productId) { [weak self] result in
@@ -59,6 +64,13 @@ extension ProductDetailPresenter: ProductDetailPresenterInterface {
             switch result {
             case .success(let item):
                 strongSelf.item = item
+                if let attributes = item.attributes {
+                    attributes.forEach { attribute in
+                        if let name = attribute.name, let value = attribute.valueName {
+                            strongSelf.attributes.append(AttributeModel(name: name, value: value))
+                        }
+                    }
+                }
                 strongSelf.setDataForView()
             case .error:
                 let action: () -> Void = { [weak self] in
@@ -76,5 +88,9 @@ extension ProductDetailPresenter: ProductDetailPresenterInterface {
               let url = pictures[row].url
         else { return "" }
         return url
+    }
+    
+    func getAttribute(at row: Int) -> AttributeModel {
+        return attributes[row]
     }
 }
